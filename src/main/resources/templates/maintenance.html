@@ -74,6 +74,7 @@
         .modal-backdrop{
             z-index: 0;
         }
+
     </style>
 </head>
 <body>
@@ -142,7 +143,7 @@
                         <a class="btn btn-primary" th:href="@{/CrudMaintenance/editFilms/{id}(id=${product.id()})}" >Editar</a>
                     </td>
                     <td>
-                        <a id="" class="btn btn-danger" href="#" th:attr="data-id=${product.id()}, data-name=${product.name()}" data-bs-toggle="modal"
+                        <a id="" class="btn btn-delete btn-danger" href="#" th:attr="data-id=${product.id()}, data-name=${product.name()}" data-bs-toggle="modal"
                            data-bs-target="#confirmRemove">
                             Eliminar
                         </a>
@@ -183,11 +184,83 @@
     </section>
 </main>
 
+<!-- Modal de detalles del postre -->
+<div class="modal fade" id="dessertDetailsModal" tabindex="-1" aria-labelledby="dessertDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dessertDetailsLabel">Detalles del Postre</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td><strong>ID Postre:</strong></td>
+                        <td id="dessertId"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nombre:</strong></td>
+                        <td id="dessertName"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Descripción:</strong></td>
+                        <td id="dessertDescription"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Precio:</strong></td>
+                        <td id="dessertPrice"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Categoría:</strong></td>
+                        <td id="dessertCategory"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
 <script>
+
+    // Añadir el evento de clic a las filas de la tabla
+    const rows = document.querySelectorAll('#dessertTable tbody tr');
+
+    rows.forEach(row => {
+        row.addEventListener('click', function () {
+            // Verificar si el clic fue en el botón "Eliminar"
+            if (event.target.classList.contains('btn-delete')) {
+                return; // Salir si se hizo clic en el botón eliminar
+            }
+
+            // Obtener los datos de la fila seleccionada
+            const cells = this.getElementsByTagName('td');
+            const dessertId = cells[0].textContent;  // ID Dessert
+            const dessertName = cells[1].textContent;  // Dessert name
+            const dessertDescription = cells[2].textContent;  // Description
+            const dessertPrice = cells[3].textContent;  // Price
+            const dessertCategory = cells[4].textContent;  // Category
+
+            // Actualizar el contenido del modal con los datos
+            document.getElementById('dessertId').textContent = dessertId;
+            document.getElementById('dessertName').textContent = dessertName;
+            document.getElementById('dessertDescription').textContent = dessertDescription;
+            document.getElementById('dessertPrice').textContent = dessertPrice;
+            document.getElementById('dessertCategory').textContent = dessertCategory;
+
+            // Mostrar el modal
+            const myModal = new bootstrap.Modal(document.getElementById('dessertDetailsModal'));
+            myModal.show();
+        });
+    });
 
     document.getElementById('searchBar').addEventListener('input', function () {
         const filter = this.value.toLowerCase();
