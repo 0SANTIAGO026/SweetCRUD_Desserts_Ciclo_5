@@ -4,4 +4,5 @@ import com.project.web.SweetCRUD.dto.UserAuthDto;
 
 public interface UserService {
     Boolean findByEmailAndPassword(String email, String password);
+    Boolean registerUser(UserAuthDto userAuthDto);
 }

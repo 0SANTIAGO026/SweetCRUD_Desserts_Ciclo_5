@@ -16,17 +16,36 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public String authenticationUser(Model model) {
-        model.addAttribute("user", new UserAuthDto("", ""));
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("user", new UserAuthDto("", "", ""));
         return "authenticationUser";
     }
 
-    @PostMapping
-    public String authentication(@ModelAttribute UserAuthDto userAuthDto) {
-        if(userService.findByEmailAndPassword(userAuthDto.email(), userAuthDto.password()))
+    @PostMapping("/login")
+    public String loginPage(@ModelAttribute UserAuthDto userAuthDto) {
+        if(userService.findByEmailAndPassword(userAuthDto.email(), userAuthDto.password1()))
             return "redirect:/maintenance/start";
         else
-            return "redirect:/auth?error";
+            return "redirect:/auth/login?error";
+    }
+
+    @GetMapping("/register")
+    public String registerPage(Model model) {
+        model.addAttribute("user", new UserAuthDto("", "", ""));
+        return "registerUser";
+    }
+
+    @PostMapping("/register")
+    public String registerPage(@ModelAttribute UserAuthDto userAuthDto) {
+        if(!userAuthDto.password1().equals(userAuthDto.password2()))
+            return "redirect:/auth/register?errorPass";
+        else {
+            boolean result = userService.registerUser(userAuthDto);
+            if(result)
+                return "redirect:/auth/login?success";
+            else
+                return "redirect:/auth/register?errorEmail";
+        }
     }
 }
