@@ -1,8 +1,8 @@
 package com.project.web.SweetCRUD.service.impl;
 
-import com.project.web.SweetCRUD.dto.DessertsDto;
-import com.project.web.SweetCRUD.entity.Desserts;
-import com.project.web.SweetCRUD.repository.DessertsRepository;
+import com.project.web.SweetCRUD.dto.ProductDTO;
+import com.project.web.SweetCRUD.entity.Product;
+import com.project.web.SweetCRUD.repository.ProductRepository;
 import com.project.web.SweetCRUD.service.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,21 +14,22 @@ import java.util.List;
 public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
-    DessertsRepository dessertsRepository;
+    ProductRepository productRepository;
 
     @Override
-    public List<DessertsDto> findAllDesserts() {
+    public List<ProductDTO> findAllProduct() {
 
-        List<DessertsDto> dessertss = new ArrayList<DessertsDto>();
-        Iterable<Desserts> iterable = dessertsRepository.findAll();
-        iterable.forEach(desserts -> {
-            DessertsDto dessertsDto = new DessertsDto(
-                    desserts.getIdDessert(),
-                    desserts.getDessertName(),
-                    desserts.getDescription(),
-                    desserts.getPrice());
-            dessertss.add(dessertsDto);
+        List<ProductDTO> products = new ArrayList<>();
+        Iterable<Product> iterable = productRepository.findAll();
+        iterable.forEach(product -> {
+            ProductDTO productDto = new ProductDTO(
+                    product.getId(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStock(),
+                    product.getCategory().getName());
+            products.add(productDto);
         });
-        return dessertss;
+        return products;
     }
 }
