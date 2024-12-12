@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -31,5 +32,30 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             products.add(productDto);
         });
         return products;
+    }
+
+    @Override
+    public ProductDTO findProductById(int id) {
+
+        Optional<Product> optional = productRepository.findById(id);
+        return optional.map(
+                (film) -> new ProductDTO(
+                        film.getId(),
+                        film.getName(),
+                        film.getPrice(),
+                        film.getStock(),
+                        film.getCategory().getName())
+        ).orElse(null);
+    }
+
+    @Override
+    public boolean removeFilm(ProductDTO productDTO) {
+        Optional<Product> optional = productRepository.findById(productDTO.id());
+        return optional.map(
+                product -> {
+                    productRepository.delete(product);
+                    return true;
+                }
+        ).orElse(false);
     }
 }
