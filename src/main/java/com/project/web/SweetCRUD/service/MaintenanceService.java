@@ -11,13 +11,19 @@ import java.util.List;
 
 public interface MaintenanceService {
 
-
-    List<ProductDTO> findAllProduct();
-    ProductDTO findProductById(int id);
-    Boolean updateProduct(ProductDTO productDTO);
     @Cacheable(value = "products")
+    List<ProductDTO> findAllProduct();
+  
+    ProductDTO findProductById(int id);
+  
+    @CacheEvict(value = "products", allEntries = true)
+    Boolean updateProduct(ProductDTO productDTO);
+
+    boolean removeFilm(ProductDTO productDTO);
+  
     @CacheEvict(value = "products", allEntries = true)
     Boolean createProduct(ProductCreateDto productCreateDto);
+  
     @Cacheable(value = "categories")
     List<CategoryDto> findAllCategories();
 }

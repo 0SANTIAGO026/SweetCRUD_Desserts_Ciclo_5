@@ -22,13 +22,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Autowired
     ProductRepository productRepository;
 
-
     @Autowired
     CategoryRepository categoryRepository;
 
     @Override
     public List<ProductDTO> findAllProduct() {
-
         List<ProductDTO> products = new ArrayList<>();
         Iterable<Product> iterable = productRepository.findAll();
         iterable.forEach(product -> {
@@ -78,6 +76,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public boolean removeFilm(ProductDTO productDTO) {
+        Optional<Product> optional = productRepository.findById(productDTO.id());
+        return optional.map(
+                product -> {
+                    productRepository.delete(product);
+                    return true;
+                }
+        ).orElse(false);
+    }
+    
+    @Override
     public List<CategoryDto> findAllCategories() {
         List<CategoryDto> categories = new ArrayList<>();
         Iterable<Category> iterable = categoryRepository.findAll();
@@ -85,7 +94,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             categories.add(new CategoryDto(category.getId(), category.getName(), category.getDescription()));
         });
         return categories;
-
     }
 
     @Override
@@ -102,6 +110,5 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             return true;
         }
         return false;
-
     }
 }
