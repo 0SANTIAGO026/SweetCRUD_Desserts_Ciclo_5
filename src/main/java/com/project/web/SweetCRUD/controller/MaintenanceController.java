@@ -29,7 +29,8 @@ public class MaintenanceController {
 
     @PostMapping("/remove/{id}")
     public String remove(@PathVariable Integer id, Model model) {
-        System.out.println("Eliminando " + id);
+        ProductDTO productDTO= maintenanceService.findProductById(id);
+        maintenanceService.removeFilm(productDTO);
         return "redirect:/maintenance/start";
     }
 

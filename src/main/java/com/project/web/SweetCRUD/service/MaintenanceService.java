@@ -13,9 +13,14 @@ public interface MaintenanceService {
     @Cacheable(value = "products")
 
     List<ProductDTO> findAllProduct();
+  
+    ProductDTO findProductById(int id);
+
+    boolean removeFilm(ProductDTO productDTO);
+  
     @CacheEvict(value = "products", allEntries = true)
     Boolean createProduct(ProductCreateDto productCreateDto);
 
     @Cacheable(value = "categories")
-    List<CategoryDto> findAllCategories();
+    List<CategoryDto> findAllCategories();r
 }

@@ -43,6 +43,29 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public ProductDTO findProductById(int id) {
+
+        Optional<Product> optional = productRepository.findById(id);
+        return optional.map(
+                (film) -> new ProductDTO(
+                        film.getId(),
+                        film.getName(),
+                        film.getPrice(),
+                        film.getStock(),
+                        film.getCategory().getName())
+        ).orElse(null);
+    }
+
+    @Override
+    public boolean removeFilm(ProductDTO productDTO) {
+        Optional<Product> optional = productRepository.findById(productDTO.id());
+        return optional.map(
+                product -> {
+                    productRepository.delete(product);
+                    return true;
+                }
+        ).orElse(false);
+
     public List<CategoryDto> findAllCategories() {
         List<CategoryDto> categories = new ArrayList<>();
         Iterable<Category> iterable = categoryRepository.findAll();

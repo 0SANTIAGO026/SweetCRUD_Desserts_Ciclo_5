@@ -31,8 +31,6 @@ public class HikariCpConfig {
         config.setPassword(dbSweetCRUDPass);
         config.setDriverClassName(dbSweetCRUDDriver);
 
-
-
         /**
          * Configurar propiedades del pool de HikariCP
          * - MaximumPoolSize: Máximo # de conexiones del pool.
