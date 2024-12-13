@@ -1,14 +1,16 @@
 package com.project.web.SweetCRUD.controller;
 
 
-import com.project.web.SweetCRUD.dto.CategoryDTO;
+import com.project.web.SweetCRUD.dto.CategoryDto;
+import com.project.web.SweetCRUD.dto.ProductCreateDto;
 import com.project.web.SweetCRUD.dto.ProductDTO;
-import com.project.web.SweetCRUD.entity.Product;
 import com.project.web.SweetCRUD.service.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class MaintenanceController {
         ProductDTO product = maintenanceService.findProductById(id);
         model.addAttribute("product", product);
 
-        List<CategoryDTO> categories = maintenanceService.findAllCategories();
+        List<CategoryDto> categories = maintenanceService.findAllCategories();
         model.addAttribute("categories", categories);
 
         return "updateProduct";
@@ -54,6 +56,26 @@ public class MaintenanceController {
     @GetMapping("/user")
     public String user(Model model) {
         return "authenticationUser";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model) {
+        List<CategoryDto> categories = maintenanceService.findAllCategories();
+        model.addAttribute("categories", categories);
+        return "maintenance_create";
+    }
+
+    @PostMapping("/create")
+    public String createFilm(@ModelAttribute ProductCreateDto productCreateDto, RedirectAttributes redirectAttributes) {
+        boolean success = maintenanceService.createProduct(productCreateDto);
+        if (success) {
+            redirectAttributes.addFlashAttribute("message", "Postre creado con éxito");
+            redirectAttributes.addFlashAttribute("messageType", "success");
+            return "redirect:/maintenance/start";
+        }
+        redirectAttributes.addFlashAttribute("message", "Error al crear el postre");
+        redirectAttributes.addFlashAttribute("messageType", "error");
+        return "redirect:/maintenance/create";
     }
 
 }

@@ -76,12 +76,71 @@
         }
 
     </style>
+    <style>
+        .snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 99999;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .snackbar.success {
+            background-color: #4CAF50;
+        }
+
+        .snackbar.error {
+            background-color: #f44336;
+        }
+
+        .snackbar.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
 <video class="background-video" autoplay muted loop>
     <source src="/videos/video_postres.mp4" type="video/mp4">
     Tu navegador no soporta videos HTML5.
 </video>
+
+<div id="snackbar" class="snackbar"
+     th:if="${message != null}"
+     th:text="${message}"
+     th:classappend="${messageType == 'success'} ? 'success show' : (${messageType == 'error'} ? 'error show' : '')">
+</div>
 
 <header class="d-flex justify-content-between align-items-center w-100">
     <!-- Menú desplegable de usuario -->
@@ -116,7 +175,7 @@
 <main class="container mt-4">
     <section class="search-bar d-flex justify-content-between align-items-center mb-3">
         <input type="text" class="form-control w-50" id="searchBar" placeholder="Buscar" />
-        <button class="btn btn-create">+ Crear nuevo postre</button>
+        <a href="/maintenance/create" class="btn btn-create">+ Crear nuevo postre</a>
     </section>
     <section>
         <div class="table-responsive">
@@ -336,6 +395,21 @@
     document.addEventListener('DOMContentLoaded', paginateTable);
 
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const snackbar = document.getElementById("snackbar");
+
+        if (snackbar.textContent.trim()) {
+            snackbar.classList.add("show");
+
+            setTimeout(() => {
+                snackbar.classList.remove("show");
+            }, 3000);
+        }
+    });
+</script>
+
 
 
 </body>
