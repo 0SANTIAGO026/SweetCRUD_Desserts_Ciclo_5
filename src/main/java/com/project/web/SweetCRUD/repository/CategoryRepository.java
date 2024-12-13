@@ -1,6 +1,5 @@
 package com.project.web.SweetCRUD.repository;
 
-import com.project.web.SweetCRUD.dto.CategoryDTO;
 import com.project.web.SweetCRUD.entity.Category;
 import org.springframework.data.repository.CrudRepository;
 
