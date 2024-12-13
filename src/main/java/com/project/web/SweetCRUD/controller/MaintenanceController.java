@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import java.util.List;
 
 @Controller
@@ -32,6 +33,25 @@ public class MaintenanceController {
         ProductDTO productDTO= maintenanceService.findProductById(id);
         maintenanceService.removeFilm(productDTO);
         return "redirect:/maintenance/start";
+    }
+
+    @GetMapping("/update/{id}")
+    public String editProduct(@PathVariable("id") Integer id, Model model) {
+        ProductDTO product = maintenanceService.findProductById(id);
+        model.addAttribute("product", product);
+
+        List<CategoryDto> categories = maintenanceService.findAllCategories();
+        model.addAttribute("categories", categories);
+
+        return "updateProduct";
+    }
+
+
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute ProductDTO productDTO) {
+        // Actualizar el producto en la base de datos
+        maintenanceService.updateProduct(productDTO);
+        return "redirect:/maintenance/start"; // Redirigir al inicio
     }
 
     @GetMapping("/user")

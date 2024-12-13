@@ -199,7 +199,7 @@
                     <td th:text="${product.stock()}"></td>
                     <td th:text="${product.category()}"></td>
                     <td>
-                        <a class="btn btn-primary" th:href="@{/CrudMaintenance/editFilms/{id}(id=${product.id()})}" >Editar</a>
+                        <a class="btn btn-primary" th:href="@{/maintenance/update/{id}(id=${product.id})}" >Editar</a>
                     </td>
                     <td>
                         <a id="" class="btn btn-delete btn-danger" href="#" th:attr="data-id=${product.id()}, data-name=${product.name()}" data-bs-toggle="modal"

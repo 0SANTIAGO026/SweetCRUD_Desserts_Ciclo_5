@@ -1,12 +1,12 @@
 package com.project.web.SweetCRUD.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
@@ -21,5 +21,4 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     public Category category;
-
 }

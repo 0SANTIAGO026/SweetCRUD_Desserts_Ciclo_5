@@ -10,10 +10,10 @@ import com.project.web.SweetCRUD.repository.ProductRepository;
 import com.project.web.SweetCRUD.service.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import java.util.Optional;
 
 @Service
@@ -27,7 +27,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public List<ProductDTO> findAllProduct() {
-
         List<ProductDTO> products = new ArrayList<>();
         Iterable<Product> iterable = productRepository.findAll();
         iterable.forEach(product -> {
@@ -44,16 +43,36 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public ProductDTO findProductById(int id) {
+        Optional<Product> productOpt = productRepository.findById(id);
+        if(productOpt.isPresent()) {
+            Product product = productOpt.get();
+            return new ProductDTO(
+                    product.getId(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStock(),
+                    product.getCategory().getName());
+        }else{
+            throw new RuntimeException("Product not found");
+        }
+    }
 
-        Optional<Product> optional = productRepository.findById(id);
-        return optional.map(
-                (film) -> new ProductDTO(
-                        film.getId(),
-                        film.getName(),
-                        film.getPrice(),
-                        film.getStock(),
-                        film.getCategory().getName())
-        ).orElse(null);
+    @Override
+    public Boolean updateProduct(ProductDTO productDTO) {
+        Optional<Product> productOpt = productRepository.findById(productDTO.id());
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            product.setName(productDTO.name());
+            product.setPrice(productDTO.price());
+            product.setStock(productDTO.stock());
+            Category category = categoryRepository.findByName(productDTO.category())
+                    .orElseThrow(() -> new NoSuchElementException("Category not found"));
+            product.setCategory(category);
+            productRepository.save(product);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -65,13 +84,15 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                     return true;
                 }
         ).orElse(false);
-
+    }
+    
+    @Override
     public List<CategoryDto> findAllCategories() {
         List<CategoryDto> categories = new ArrayList<>();
         Iterable<Category> iterable = categoryRepository.findAll();
-        for (Category category : iterable) {
+        iterable.forEach(category -> {
             categories.add(new CategoryDto(category.getId(), category.getName(), category.getDescription()));
-        }
+        });
         return categories;
     }
 
