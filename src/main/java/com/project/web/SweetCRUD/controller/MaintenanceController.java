@@ -31,7 +31,7 @@ public class MaintenanceController {
     @PostMapping("/remove/{id}")
     public String remove(@PathVariable Integer id, Model model) {
         ProductDTO productDTO= maintenanceService.findProductById(id);
-        maintenanceService.removeFilm(productDTO);
+        maintenanceService.removeProduct(productDTO);
         return "redirect:/maintenance/start";
     }
 
@@ -67,7 +67,7 @@ public class MaintenanceController {
     }
 
     @PostMapping("/create")
-    public String createFilm(@ModelAttribute ProductCreateDto productCreateDto, RedirectAttributes redirectAttributes) {
+    public String createProduct(@ModelAttribute ProductCreateDto productCreateDto, RedirectAttributes redirectAttributes) {
         boolean success = maintenanceService.createProduct(productCreateDto);
         if (success) {
             redirectAttributes.addFlashAttribute("message", "Postre creado con éxito");

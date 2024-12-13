@@ -19,7 +19,8 @@ public interface MaintenanceService {
     @CacheEvict(value = "products", allEntries = true)
     Boolean updateProduct(ProductDTO productDTO);
 
-    boolean removeFilm(ProductDTO productDTO);
+    @CacheEvict(value = "products", allEntries = true)
+    boolean removeProduct(ProductDTO productDTO);
   
     @CacheEvict(value = "products", allEntries = true)
     Boolean createProduct(ProductCreateDto productCreateDto);

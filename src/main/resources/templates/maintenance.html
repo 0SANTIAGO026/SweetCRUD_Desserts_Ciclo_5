@@ -227,7 +227,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ¿Estás seguro de que deseas eliminar el Postre <span id="filmNameConfirm"></span>?
+                        ¿Estás seguro de que deseas eliminar el Postre <span id="productNameConfirm"></span>?
                     </div>
                     <div class="modal-footer">
                         <form id="deleteForm" method="post">
@@ -354,8 +354,8 @@
         const dataName = button.getAttribute('data-name');
 
         // actualizar el texto del modal
-        const filmNameConfirm = document.getElementById('filmNameConfirm');
-        filmNameConfirm.textContent = dataName;
+        const productNameConfirm = document.getElementById('productNameConfirm');
+        productNameConfirm.textContent = dataName;
 
         // actualizar la accion del formulario
         const deleteForm = document.getElementById('deleteForm');

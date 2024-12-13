@@ -76,7 +76,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public boolean removeFilm(ProductDTO productDTO) {
+    public boolean removeProduct(ProductDTO productDTO) {
         Optional<Product> optional = productRepository.findById(productDTO.id());
         return optional.map(
                 product -> {
