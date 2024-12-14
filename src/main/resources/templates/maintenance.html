@@ -156,7 +156,13 @@
                 <span class="visually-hidden">Abrir menú</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                <li>
+                    <form th:action="@{/maintenance/logout}" method="post">
+                        <button type="submit" class="dropdown-item">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
@@ -231,6 +237,7 @@
                     </div>
                     <div class="modal-footer">
                         <form id="deleteForm" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
