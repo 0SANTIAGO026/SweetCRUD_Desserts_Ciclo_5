@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,4 +22,8 @@ public class Users {
     @ManyToOne
     @JoinColumn(name = "id_profile")
     private Profiles profile;
+
+    @OneToMany(mappedBy= "users")
+    private List<Sales> sales;
+
 }
