@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Editar Producto</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/maintenance/update}" th:object="${product}" method="post">
+                        <!-- ID -->
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="text" id="id" class="form-control" th:field="*{id}" readonly>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre del Producto</label>
+                            <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Ingresa el nombre del producto">
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Precio</label>
+                            <input type="number" id="price" class="form-control" th:field="*{price}" placeholder="Ingresa el precio">
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="mb-3">
+                            <label for="stock" class="form-label">Stock</label>
+                            <input type="number" id="stock" class="form-control" th:field="*{stock}" placeholder="Ingresa la cantidad en stock">
+                        </div>
+
+                        <!-- Categoría -->
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Categoría</label>
+                            <select id="category" class="form-select" th:field="*{category}">
+                                <option value="" disabled>Seleccionar categoría</option>
+                                <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}"></option>
+                            </select>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                            <a href="/maintenance/start" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
