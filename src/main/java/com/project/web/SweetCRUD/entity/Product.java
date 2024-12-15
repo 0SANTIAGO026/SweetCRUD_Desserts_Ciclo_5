@@ -3,6 +3,8 @@ package com.project.web.SweetCRUD.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @Setter
@@ -21,4 +23,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     public Category category;
+
+    @OneToMany(mappedBy= "product")
+    private List<Sales> sales;
 }
