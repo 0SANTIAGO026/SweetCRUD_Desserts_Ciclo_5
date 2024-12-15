@@ -17,17 +17,8 @@ public class AuthController {
     private UserService userService;
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("user", new UserAuthDto("", "", ""));
+    public String loginPage() {
         return "authenticationUser";
-    }
-
-    @PostMapping("/login")
-    public String loginPage(@ModelAttribute UserAuthDto userAuthDto) {
-        if(userService.findByEmailAndPassword(userAuthDto.email(), userAuthDto.password1()))
-            return "redirect:/maintenance/start";
-        else
-            return "redirect:/auth/login?error";
     }
 
     @GetMapping("/register")
