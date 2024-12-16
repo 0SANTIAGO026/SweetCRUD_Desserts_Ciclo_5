@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface SalesService {
     List<SalesDto> getAllSales() throws Exception;
-    boolean addSale(SalesDetailDto salesDetailDto, String cvv) throws Exception;
+    boolean addSale(SalesDetailDto salesDetailDto) throws Exception;
 }

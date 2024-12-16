@@ -8,6 +8,7 @@ public record SalesDetailDto(
         String creditCardNumber,
         Integer expirationMonth,
         Integer expirationYear,
+        String cvv,
         String cardholderName
 
 ) {

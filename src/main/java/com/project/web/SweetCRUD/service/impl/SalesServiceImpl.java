@@ -46,7 +46,7 @@ public class SalesServiceImpl implements SalesService {
     }
 
     @Override
-    public boolean addSale(SalesDetailDto salesDetailDto, String cvv) throws Exception {
+    public boolean addSale(SalesDetailDto salesDetailDto) throws Exception {
 
             Optional<Users> user=userRepository.findById(salesDetailDto.idUser());
             Optional<Product> product=productRepository.findById(salesDetailDto.id());
@@ -58,7 +58,7 @@ public class SalesServiceImpl implements SalesService {
             sales.setCreditCardNumber(salesDetailDto.creditCardNumber());
             sales.setExpirationMonth(salesDetailDto.expirationMonth());
             sales.setExpirationYear(salesDetailDto.expirationYear());
-            sales.setCvv(cvv);
+            sales.setCvv(salesDetailDto.cvv());
             sales.setCardholderName(salesDetailDto.cardholderName());
             sales.setSaleDate(new Date());
             salesRepository.save(sales);
