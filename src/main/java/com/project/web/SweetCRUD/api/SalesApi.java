@@ -33,10 +33,10 @@ public class SalesApi {
 
 
     @PostMapping("/add")
-    public AddSalesResponse addSales(@RequestBody SalesDetailDto salesDetailDto,@RequestParam String cvv) {
+    public AddSalesResponse addSales(@RequestBody SalesDetailDto salesDetailDto) {
 
         try {
-            if (salesService.addSale(salesDetailDto,cvv)) {
+            if (salesService.addSale(salesDetailDto)) {
                 return new AddSalesResponse("01", "");
             }else{
                 return new AddSalesResponse("02", "Product or User do not exists");
