@@ -6,12 +6,15 @@ import com.project.web.SweetCRUD.entity.Users;
 import com.project.web.SweetCRUD.repository.UserRepository;
 import com.project.web.SweetCRUD.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Boolean findByEmailAndPassword(String email, String password) {
@@ -25,7 +28,7 @@ public class UserServiceImpl implements UserService {
         else {
             Users user = new Users();
             user.setEmail(userAuthDto.email());
-            user.setPassword(userAuthDto.password1());
+            user.setPassword(passwordEncoder.encode(userAuthDto.password1()));
             Profiles profiles = new Profiles();
             profiles.setIdProfile(2);
             user.setProfile(profiles);
