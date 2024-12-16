@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userAuthDto.email());
             user.setPassword(userAuthDto.password1());
             Profiles profiles = new Profiles();
-            profiles.setIdProfile(1);
+            profiles.setIdProfile(2);
             user.setProfile(profiles);
             userRepository.save(user);
             return true;
