@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -16,7 +18,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
            auth.requestMatchers("/auth/**").permitAll();
            auth.requestMatchers("/videos/**").permitAll();
-           auth.requestMatchers("/maintenance/**").authenticated();
+           auth.requestMatchers("/maintenance/**").hasRole("admin");
         });
 
         http.formLogin(form -> {
@@ -29,6 +31,17 @@ public class SecurityConfig {
            logout.logoutSuccessUrl("/auth/login?logout");
         });
 
+        http.exceptionHandling(ex -> {
+           ex.accessDeniedHandler((request, response, accessDeniedException) -> {
+               response.sendRedirect("/auth/login?error");
+           });
+        });
+
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
